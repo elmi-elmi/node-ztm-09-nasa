@@ -10,11 +10,11 @@ app.use(cors({
 }))
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'public')))
+app.use(express.static(path.join(__dirname, '..', 'front')))
 
 app.use(planetsRouter)
 app.get('/',(req, res)=>{
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
+    res.sendFile(path.join(__dirname, '..', 'front', 'index.html'))
 })
 
 module.exports = app;
