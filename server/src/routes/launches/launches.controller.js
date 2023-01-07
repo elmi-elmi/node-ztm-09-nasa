@@ -3,6 +3,7 @@ const {getAllLaunches, addNewLaunch, abortLaunch, existLaunchById} = require("..
 function httpGetLaunches(req, res){
     return res.status(200).json(getAllLaunches())
 }
+
 function httpPostLaunch(req, res){
     const launch = req.body;
     if(!launch.mission || !launch.rocket || !launch.launchDate || !launch.target){
@@ -22,7 +23,6 @@ function httpPostLaunch(req, res){
 
 function httpDeleteLaunch (req, res) {
     const id = Number(req.params.id);
-    console.log('------>', id)
     if(!existLaunchById(id)){
         return res.status(400).json({
             error: 'Id not found'
