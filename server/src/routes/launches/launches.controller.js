@@ -1,4 +1,4 @@
-const {getAllLaunches, addNewLaunch} = require("../../models/launches.model");
+const {getAllLaunches, addNewLaunch, abortLaunch, existLaunchById} = require("../../models/launches.model");
 
 function httpGetLaunches(req, res){
     return res.status(200).json(getAllLaunches())
@@ -20,4 +20,17 @@ function httpPostLaunch(req, res){
     return res.status(201).json(launch)
 }
 
-module.exports = {httpGetLaunches, httpPostLaunch}
+function httpDeleteLaunch (req, res) {
+    const id = Number(req.params.id);
+    console.log('------>', id)
+    if(!existLaunchById(id)){
+        return res.status(400).json({
+            error: 'Id not found'
+        })
+    }else{
+        const deletedLaunch = abortLaunch(id)
+        return res.status(200).json(deletedLaunch)
+    }
+}
+
+module.exports = {httpGetLaunches, httpPostLaunch, httpDeleteLaunch}
