@@ -54,7 +54,12 @@ async function savePlanet(data) {
     }
 }
 
+async function getPlanetWithName(name){
+    return planets.findOne({keplerName: name})
+}
+
 module.exports = {
     getAllPlanets,
-    loadPlanetsData
+    loadPlanetsData,
+    getPlanetWithName
 }

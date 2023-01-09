@@ -23,18 +23,18 @@ describe("Launches API", ()=>{
             mission: "Kepler exploration x",
             rocket: "Shahrokh-rocket",
             launchDate: new Date('December 27, 2023'),
-            target: "Shiraz",
+            target: "Kepler-62 f",
         }
         const launchDataWithoutDate = {
             mission: "Kepler exploration x",
             rocket: "Shahrokh-rocket",
-            target: "Shiraz",
+            target: "Kepler-62 f",
         }
         const launchDataWithInvalidData = {
             mission: "Kepler exploration x",
             rocket: "Shahrokh-rocket",
             launchDate: "wrong date",
-            target: "Shiraz",
+            target: "Kepler-62 f",
         }
 
         test("It should respond with 201 success", async () => {

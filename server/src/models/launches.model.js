@@ -1,4 +1,5 @@
 const launches = require("./launches.mongo");
+const {getAllPlanets, getPlanetWithName} = require("./plantes.model");
 
 const DEFAULT_FLIGHT_NUM = 100;
 
@@ -21,6 +22,10 @@ async function getAllLaunches() {
 
 
 async function addNewLaunch(newLaunch) {
+    const planet = await getPlanetWithName(newLaunch.target)
+    if(!planet){
+        throw new Error('No matching planet found')
+    }
     let latestLaunch = await launches
         .findOne()
         .sort('-flightNumber')

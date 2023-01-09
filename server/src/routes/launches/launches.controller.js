@@ -17,8 +17,15 @@ async function httpPostLaunch(req, res) {
             error: 'Invalid launch date'
         })
     }
-    await addNewLaunch(launch);
-    return res.status(201).json(launch)
+    try{
+        await addNewLaunch(launch);
+        return res.status(201).json(launch)
+    }catch (err){
+        return res.status(400).json({
+            error: err
+        })
+    }
+
 }
 
 async function httpDeleteLaunch(req, res) {
