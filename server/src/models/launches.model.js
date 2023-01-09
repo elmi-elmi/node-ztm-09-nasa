@@ -17,7 +17,9 @@ const DEFAULT_FLIGHT_NUM = 100;
 // launches.set(launch.flightNumber, launch);
 
 async function getAllLaunches() {
-    return launches.find({})
+    return launches.find({},{
+        _id: 0, __v:0
+    })
 }
 
 
@@ -53,8 +55,8 @@ async function existsLaunchById(id) {
 }
 
 
-function abortLaunch(id) {
-    return launches.findOneAndUpdate({
+async function abortLaunch(id) {
+    const aborted = await launches.updateOne({
             flightNumber: id
         }, {
             success: false,
@@ -64,6 +66,8 @@ function abortLaunch(id) {
             upsert: true,
         }
     );
+    console.log(aborted, 'abourteddddddddddddd')
+    return aborted.acknowledged && aborted.modifiedCount === 1
 }
 
 module.exports = {

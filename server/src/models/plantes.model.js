@@ -23,12 +23,11 @@ function isHabitablePlanet(planet) {
                     }
             })
             .on('error', (err) => {
-                console.log(err);
                 reject(err)
             })
             .on('end', async () => {
                 const countFoundPlanet = await getAllPlanets()
-                console.log(`${countFoundPlanet} habitable planets found!`);
+                // console.log(`${countFoundPlanet} habitable planets found!`);
                 resolve()
             });
 
@@ -37,7 +36,9 @@ function isHabitablePlanet(planet) {
 }
 
 async function getAllPlanets(){
-    return  planets.find({})
+    return  planets.find({},{
+        _id:0, __v:0
+    })
 }
 
 async function savePlanet(data) {
@@ -50,7 +51,7 @@ async function savePlanet(data) {
             upsert: true
         })
     } catch (err) {
-        console.log(err)
+        // console.log(err)
     }
 }
 
