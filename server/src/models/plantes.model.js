@@ -27,7 +27,7 @@ function isHabitablePlanet(planet) {
             })
             .on('end', async () => {
                 const countFoundPlanet = await getAllPlanets()
-                // console.log(`${countFoundPlanet} habitable planets found!`);
+                console.log(`${countFoundPlanet.length} habitable planets found!`);
                 resolve()
             });
 
@@ -43,7 +43,7 @@ async function getAllPlanets(){
 
 async function savePlanet(data) {
     try {
-        await planets.findOneAndUpdate({
+        await planets.updateOne({
             keplerName: data.kepler_name
         }, {
             keplerName: data.kepler_name
@@ -51,7 +51,7 @@ async function savePlanet(data) {
             upsert: true
         })
     } catch (err) {
-        // console.log(err)
+        console.log(`Could not save planet: ${err}`)
     }
 }
 
