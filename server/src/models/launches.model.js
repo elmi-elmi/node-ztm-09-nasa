@@ -1,50 +1,70 @@
-const launches = new Map();
+const launches = require("./launches.mongo");
 
-let latestFlightNumber = 100;
+const DEFAULT_FLIGHT_NUM = 100;
 
-const launch = {
-    flightNumber: 100,
-    mission: "Kepler exploration x",
-    rocket: "Shahrokh-rocket",
-    launchDate: new Date('December 27, 2023'),
-    target: "Shiraz",
-    customer: ['elmi', 'ans'],
-    upcoming: true,
-    success: true,
+// const launch = {
+//     flightNumber: 100,
+//     mission: "Kepler exploration x",
+//     rocket: "Shahrokh-rocket",
+//     launchDate: new Date('December 27, 2023'),
+//     target: "Shiraz",
+//     customers: ['elmi', 'ans'],
+//     upcoming: true,
+//     success: true,
+// }
+
+// launches.set(launch.flightNumber, launch);
+
+async function getAllLaunches() {
+    return launches.find({})
 }
 
-launches.set(launch.flightNumber, launch);
 
-function getAllLaunches(){
-    return Array.from(launches.values())
-}
-
-function addNewLaunch(newLaunch){
-    latestFlightNumber++;
-    launches.set(
-        latestFlightNumber,
-        Object.assign(newLaunch, {
-            success: true,
+async function addNewLaunch(newLaunch) {
+    let latestLaunch = await launches
+        .findOne()
+        .sort('-flightNumber')
+    let latestFlightNumber;
+    if (!latestLaunch) {
+        latestFlightNumber = DEFAULT_FLIGHT_NUM
+    } else {
+        latestFlightNumber = latestLaunch.flightNumber + 1
+    }
+    await launches.findOneAndUpdate({
+            flightNumber: latestFlightNumber,
+        }, Object.assign(newLaunch, {
+            flightNumber: latestFlightNumber,
             upcoming: true,
-            customer: ['elmi', 'el'],
-            flightNumber: latestFlightNumber
+            success: true,
+            customers: ['elmi', 'hi']
         })
-    )
+        , {
+            upsert: true
+        })
 }
-function existLaunchById (id){
-    return launches.has(id)
+
+async function existsLaunchById(id) {
+    return launches.findOne({flightNumber: id})
 }
-function abortLaunch(id){
-    const selectedLaunch = launches.get(id);
-    selectedLaunch.success = false;
-    selectedLaunch.upcoming = false;
-    return selectedLaunch
+
+
+function abortLaunch(id) {
+    return launches.findOneAndUpdate({
+            flightNumber: id
+        }, {
+            success: false,
+            upcoming: false
+        },
+        {
+            upsert: true,
+        }
+    );
 }
 
 module.exports = {
     getAllLaunches,
     addNewLaunch,
-    existLaunchById,
+    existsLaunchById,
     abortLaunch
-}
+};
 

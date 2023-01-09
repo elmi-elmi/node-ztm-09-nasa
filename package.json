@@ -11,7 +11,8 @@
     "install-client": "npm install --prefix client",
     "install": "npm run install-server && npm run install-client",
     "build-client": "npm run build --prefix client",
-    "build": "npm run build-client && npm run server"
+    "dev": "npm run build-client && npm run server",
+    "test": "npm test --prefix server && npm test --prefix client"
   },
   "keywords": [],
   "author": "",
