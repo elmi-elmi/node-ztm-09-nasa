@@ -9,16 +9,16 @@ describe("Launches API", ()=>{
     afterAll(async ()=>{
         await mongoDisconnect()
     })
-    describe('Test GET: /launches',()=>{
+    describe('Test GET: /v1/launches',()=>{
         test('It should respond with 200 success',async ()=>{
             const response = await request(app)
-                .get('/launches')
+                .get('/v1/launches')
                 .expect('Content-Type',/json/)
                 .expect(200)
         })
     })
 
-    describe('Test POST: /launches', () => {
+    describe('Test POST: /v1/launches', () => {
         const launchData = {
             mission: "Kepler exploration x",
             rocket: "Shahrokh-rocket",
@@ -39,7 +39,7 @@ describe("Launches API", ()=>{
 
         test("It should respond with 201 success", async () => {
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(launchData)
                 .expect('Content-Type', /json/)
                 .expect(201)
@@ -53,7 +53,7 @@ describe("Launches API", ()=>{
 
         test("It should catch invalid date", async () => {
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(launchDataWithInvalidData)
                 .expect('Content-Type', /json/)
                 .expect(400);
@@ -64,7 +64,7 @@ describe("Launches API", ()=>{
 
         test('It should catch missing require property', async () => {
             const response = await request(app)
-                .post('/launches')
+                .post('/v1/launches')
                 .send(launchDataWithoutDate)
                 .expect('Content-Type', /json/)
                 .expect(400)
